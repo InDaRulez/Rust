@@ -30,6 +30,27 @@ jobs:
           lipo -verify_arch arm64 x86_64 "$APP/Contents/MacOS/astral"
           codesign --verify --deep --strict --verbose=2 "$APP"
           ditto -c -k --sequesterRsrc --keepParent "$APP" Astral-mac-universal.zip
+      - name: Verify application starts on macOS
+        run: |
+          python3 - <<'PYTEST'
+          import subprocess, time
+          binary = 'src-tauri/target/universal-apple-darwin/release/bundle/macos/Astral.app/Contents/MacOS/astral'
+          with open('macos-startup.log', 'w') as log:
+              app = subprocess.Popen([binary], stdout=log, stderr=subprocess.STDOUT)
+              try:
+                  time.sleep(8)
+                  if app.poll() is not None:
+                      raise RuntimeError('Astral exited during startup: ' + str(app.returncode))
+                  print('Astral remained running during the startup smoke test.')
+              finally:
+                  if app.poll() is None:
+                      app.terminate()
+                      try:
+                          app.wait(timeout=10)
+                      except subprocess.TimeoutExpired:
+                          app.kill()
+                          app.wait()
+          PYTEST
       - name: Upload test application
         uses: actions/upload-artifact@v4
         with:

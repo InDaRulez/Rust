@@ -8,4 +8,4 @@ Si macOS bloque une application non notariée, utiliser Réglages Système → C
 
 Les outils de développement et Rust ne sont pas nécessaires pour utiliser le résultat compilé. Les films distants nécessitent Internet. La bande-annonce Elephants Dream est intégrée pour un essai local.
 
-Cette tâche vérifie les deux architectures du binaire et sa signature ; elle n’effectue pas de test interactif sur un Mac physique. Les limites fonctionnelles sont décrites dans README.md.
+Cette tâche vérifie les deux architectures du binaire et sa signature ; elle lance aussi le processus pendant huit secondes sur le runner macOS, sans test interactif sur un Mac physique. Les limites fonctionnelles sont décrites dans README.md.
