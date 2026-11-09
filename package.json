@@ -1,0 +1,23 @@
+{
+  "name": "astral",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "tauri": "tauri",
+    "test": "playwright test",
+    "test:rust": "cargo test --manifest-path crates/astral-core/Cargo.toml",
+    "format": "prettier --write src tests *.js *.json index.html"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.0",
+    "@tauri-apps/cli": "^2.0.0",
+    "prettier": "^3.9.10",
+    "vite": "^6.0.0"
+  }
+}

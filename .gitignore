@@ -1,0 +1,10 @@
+node_modules/
+dist/
+**/target/
+src-tauri/gen/
+test-results/
+playwright-report/
+.DS_Store
+*.keystore
+*.jks
+.env*

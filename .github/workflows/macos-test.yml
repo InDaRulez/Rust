@@ -1,0 +1,41 @@
+name: macOS test build
+on:
+  push:
+    branches: [main, astral-macos-test]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Test Rust core
+        run: npm run test:rust
+      - name: Build universal macOS application
+        run: npm run tauri build -- --target universal-apple-darwin --bundles app,dmg --config '{"bundle":{"macOS":{"signingIdentity":"-","minimumSystemVersion":"11.0"}}}'
+      - name: Verify universal executable and signature
+        run: |
+          APP=src-tauri/target/universal-apple-darwin/release/bundle/macos/Astral.app
+          lipo -verify_arch arm64 x86_64 "$APP/Contents/MacOS/astral"
+          codesign --verify --deep --strict --verbose=2 "$APP"
+          ditto -c -k --sequesterRsrc --keepParent "$APP" Astral-mac-universal.zip
+      - name: Upload test application
+        uses: actions/upload-artifact@v4
+        with:
+          name: Astral-mac-universal
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            Astral-mac-universal.zip
+            src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
