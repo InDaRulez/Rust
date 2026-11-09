@@ -83,7 +83,7 @@ Validé dans l’environnement de développement Linux :
 - Trois tests Rust : sérialisation de bibliothèque et validation des URL.
 - Quatre tests Chromium : recherche/favoris et persistance, interface mobile/filtres/extensions, capture ordinateur, lecture réelle du clip local et reprise après rechargement.
 
-**Compilation de l’application Tauri tentée, bloquée par les bibliothèques système GTK/WebKit de développement manquantes.** Les commandes Rust de l’application native et les extensions n’ont pas été testées de bout en bout. Aucun exécutable Windows/macOS/Linux, APK/AAB ou IPA signé n’est fourni. Aucun essai sur matériel Android ou Apple n’a été réalisé. Les tests de navigateur ne prouvent pas la compatibilité native.
+**Compilation de l’application Tauri tentée, bloquée par les bibliothèques système GTK/WebKit de développement manquantes.** Une compilation universelle macOS a ensuite réussi sur GitHub Actions : architectures Intel et Apple Silicon, signature ad hoc et démarrage du processus pendant huit secondes vérifiés. Voir TEST-MAC.md pour le téléchargement. Les extensions n’ont pas été testées de bout en bout. Aucun exécutable Windows/Linux, APK/AAB ou IPA signé par Apple n’est fourni. Aucun essai sur matériel Android ou Apple n’a été réalisé. Les tests de navigateur ne prouvent pas la compatibilité native.
 
 ## Organisation
 
